@@ -14,7 +14,8 @@ from c_ai.exeptions import *
 class Character():
 
     MESSAGE_BOX_ID = 'user-input'
-
+    TRY_AGAIN_ID = ""
+    
     def __init__(self, id, headless=False):
         self.id = id
         self.options = webdriver.FirefoxOptions()
@@ -42,9 +43,21 @@ class Character():
                 continue
             else:
                 return element
+    def element_exists(self, by, content):
+        try:
+            element = self.driver.find_element(by, content)
+        except NoSuchElementException:
+            return False
+        return element
+    
+    def prompt(self, message, attempts=5):
+        attempts = int("9"*50) if attempts == 'inf' else attempts
+        self.wait_for_element(By.ID, self.MESSAGE_BOX_ID).send_keys(message)
+        for i in range(attempts):
+            if (element:=self.element_exists(By.ID, self.TRY_AGAIN_ID)):
+                element.click()
+                continue
             
-    def prompt(self):
-        self.wait_for_element(By.ID, self.MESSAGE_BOX_ID)
     def retry():
     
     def delete():
