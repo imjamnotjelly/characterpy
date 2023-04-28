@@ -68,7 +68,7 @@ class Character():
                 element.click()
                 continue
             return self.driver.find_elements(By.XPATH, self.RECENT_MSG_XPATH)[-1]
-        return ExceededAttemptsError
+        raise ExceededAttemptsError
             
             
             
