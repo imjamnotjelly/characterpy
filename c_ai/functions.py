@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-
+from exceptions import *
 
 
 class Character():
@@ -17,7 +17,8 @@ class Character():
     LOADING_XPATH = "//button[.//div[@role='status']]"
     STOP_BUTTON_XPATH = '//button[@aria-label="Stop Message Generation"]'
     TRY_AGAIN_XPATH = '//button[normalize-space()="Try Again"]'
-    
+    RECENT_MSG_XPATH = '//p[@node="[object Object]"]'
+
     def __init__(self, id, userdata, headless=False):
         self.id = id
         self.options = webdriver.ChromeOptions()
@@ -66,14 +67,15 @@ class Character():
             if (element:=self.element_exists(By.ID, self.TRY_AGAIN_XPATH)):
                 element.click()
                 continue
-            return self.driver.find_elements(By.XPATH, '//p[@node="[object Object]"]')[-1]
+            return self.driver.find_elements(By.XPATH, self.RECENT_MSG_XPATH)[-1]
+        return ExceededAttemptsError
             
             
             
     def retry():
         pass
 
-    def delete():
+    def delete_msg():
         pass
 
     def view():
